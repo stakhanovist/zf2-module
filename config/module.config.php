@@ -14,13 +14,13 @@ return [
         ],
         'factories'  => [
         ],
-        'invokables' => [
-        ],
+
         'shared' => [
         ],
     ],
     'controller_plugins' => [
-        'factories' => [
+        'invokables' => [
+            'queue' => 'Stakhanovist\Controller\Plugin\Queue',
         ],
     ],
 
@@ -35,7 +35,7 @@ return [
             'routes' => [
                 'stakhanovist-console-worker-process' => [
                     'options' => [
-                        'route'     => 'stakhanovist process [--serialized|-s] --message=',
+                        'route'     => 'stakhanovist process [--message=]',
                         'defaults'  => [
                             'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
                             'action'        => 'process',
@@ -44,7 +44,7 @@ return [
                 ],
                 'stakhanovist-console-worker-send' => [
                     'options' => [
-                        'route'     => 'stakhanovist send --queue= [--serialized|-s] --message= [--receiveParameters=]',
+                        'route'     => 'stakhanovist send --queue= [--message=] [--receiveParameters=]',
                         'defaults'  => [
                             'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
                             'action'        => 'send',

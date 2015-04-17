@@ -19,6 +19,7 @@ use Stakhanovist\Queue\Parameter\SendParametersInterface;
 use Zend\Stdlib\MessageInterface;
 use Stakhanovist\Queue\Message\Message;
 use Stakhanovist\Queue\Parameter\ReceiveParametersInterface;
+use Zend\Http\Request;
 
 class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
 {
@@ -148,6 +149,30 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
         }
 
         $this->getQueue()->send($message, $sendParams);
+        return $message;
+    }
+
+    /**
+     * Send an HTTP request message
+     *
+     * @param mixed $request
+     * @param SendParameters $sendParams
+     * @throws \InvalidArgumentException
+     * @return MessageInterface
+     */
+    public function http($request, SendParametersInterface $sendParams = null)
+    {
+        if(is_string($request)) {
+            $req = new Request();
+            $req->setUri($request);
+            $request = $req;
+        }
+
+        if (!$request instanceof Request) {
+            throw new \InvalidArgumentException('Invalid $request: must be an URI as string or an instace of ' . Request::class);
+        }
+
+        $message = $this->getQueue()->send($request, $sendParams);
         return $message;
     }
 }
