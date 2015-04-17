@@ -11,8 +11,8 @@
     ],
     "require": {
         "php": ">=5.4",
-        "stakhanovist/worker": "0.2.x-dev",
-        "stakhanovist/queue": "0.2.x-dev",
+        "stakhanovist/worker": "0.2.*@dev",
+        "stakhanovist/queue": "0.2.*@dev",
         "zendframework/zendframework": "~2.4"
     },
     "require-dev": {
