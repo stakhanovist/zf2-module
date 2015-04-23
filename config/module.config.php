@@ -20,7 +20,7 @@ return [
     ],
     'controller_plugins' => [
         'invokables' => [
-            'queue' => 'Stakhanovist\Controller\Plugin\Queue',
+            'queue' => 'Stakhanovist\Module\Controller\Plugin\Queue',
         ],
     ],
 
