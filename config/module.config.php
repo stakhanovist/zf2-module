@@ -66,6 +66,7 @@ return [
                         'defaults'  => [
                             'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
                             'action'        => 'await',
+                            'cli-passthru'  => 'stakhanovist process'
                         ],
                     ]
                 ],
