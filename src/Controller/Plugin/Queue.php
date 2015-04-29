@@ -6,7 +6,7 @@
  * @copyright   Copyright (c) 2015, Stakhanovist
  * @license     http://opensource.org/licenses/BSD-2-Clause Simplified BSD License
  */
-namespace Stakhanovist\Controller\Plugin;
+namespace Stakhanovist\Module\Controller\Plugin;
 
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;

@@ -20,7 +20,7 @@ return [
     ],
     'controller_plugins' => [
         'invokables' => [
-            'queue' => 'Stakhanovist\Controller\Plugin\Queue',
+            'queue' => 'Stakhanovist\Module\Controller\Plugin\Queue',
         ],
     ],
 
@@ -66,6 +66,7 @@ return [
                         'defaults'  => [
                             'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
                             'action'        => 'await',
+                            'cli-passthru'  => 'stakhanovist process'
                         ],
                     ]
                 ],
