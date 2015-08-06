@@ -12,9 +12,8 @@ return [
             'Stakhanovist\Queue\Service\QueueAbstractServiceFactory',
             'Stakhanovist\Queue\Service\QueueAdapterAbstractServiceFactory',
         ],
-        'factories'  => [
+        'factories' => [
         ],
-
         'shared' => [
         ],
     ],
@@ -23,50 +22,48 @@ return [
             'queue' => 'Stakhanovist\Module\Controller\Plugin\Queue',
         ],
     ],
-
     'controllers' => [
         'invokables' => [
             'Stakhanovist\Worker\ConsoleWorkerController' => 'Stakhanovist\Worker\ConsoleWorkerController',
         ],
     ],
-
     'console' => [
         'router' => [
             'routes' => [
                 'stakhanovist-console-worker-process' => [
                     'options' => [
-                        'route'     => 'stakhanovist process [--message=]',
-                        'defaults'  => [
-                            'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
-                            'action'        => 'process',
+                        'route' => 'stakhanovist process [--message=]',
+                        'defaults' => [
+                            'controller' => 'Stakhanovist\Worker\ConsoleWorkerController',
+                            'action' => 'process',
                         ],
                     ]
                 ],
                 'stakhanovist-console-worker-send' => [
                     'options' => [
-                        'route'     => 'stakhanovist send --queue= [--message=] [--receiveParameters=]',
-                        'defaults'  => [
-                            'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
-                            'action'        => 'send',
+                        'route' => 'stakhanovist send --queue= [--message=] [--receiveParameters=]',
+                        'defaults' => [
+                            'controller' => 'Stakhanovist\Worker\ConsoleWorkerController',
+                            'action' => 'send',
                         ],
                     ]
                 ],
                 'stakhanovist-console-worker-receive' => [
                     'options' => [
-                        'route'     => 'stakhanovist receive --queue= [--maxMessages=] [--receiveParameters=]',
-                        'defaults'  => [
-                            'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
-                            'action'        => 'receive',
+                        'route' => 'stakhanovist receive --queue= [--maxMessages=] [--receiveParameters=]',
+                        'defaults' => [
+                            'controller' => 'Stakhanovist\Worker\ConsoleWorkerController',
+                            'action' => 'receive',
                         ],
                     ]
                 ],
                 'stakhanovist-console-worker-await' => [
                     'options' => [
-                        'route'     => 'stakhanovist await --queue= [--receiveParameters=]',
-                        'defaults'  => [
-                            'controller'    => 'Stakhanovist\Worker\ConsoleWorkerController',
-                            'action'        => 'await',
-                            'cli-passthru'  => 'stakhanovist process'
+                        'route' => 'stakhanovist await --queue= [--receiveParameters=]',
+                        'defaults' => [
+                            'controller' => 'Stakhanovist\Worker\ConsoleWorkerController',
+                            'action' => 'await',
+                            'cli-passthru' => 'stakhanovist process'
                         ],
                     ]
                 ],

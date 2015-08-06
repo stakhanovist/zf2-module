@@ -8,19 +8,25 @@
  */
 namespace Stakhanovist\Module\Controller\Plugin;
 
+use Stakhanovist\Queue\Exception as QueueException;
+use Stakhanovist\Queue\Message\Message;
+use Stakhanovist\Queue\Message\MessageIterator;
+use Stakhanovist\Queue\Parameter\ReceiveParametersInterface;
+use Stakhanovist\Queue\Parameter\SendParametersInterface;
+use Stakhanovist\Queue\QueueClientInterface;
+use Stakhanovist\Queue\QueueInterface;
+use Zend\Http\Request;
 use Zend\Mvc\Controller\Plugin\AbstractPlugin;
+use Zend\ServiceManager\AbstractPluginManager;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 use Zend\ServiceManager\ServiceLocatorInterface;
-use Stakhanovist\Queue\QueueClientInterface;
-use Zend\ServiceManager\AbstractPluginManager;
-use Stakhanovist\Queue\QueueInterface;
-use Stakhanovist\Queue\Parameter\SendParametersInterface;
+use Zend\ServiceManager\ServiceManager;
 use Zend\Stdlib\MessageInterface;
-use Stakhanovist\Queue\Message\Message;
-use Stakhanovist\Queue\Parameter\ReceiveParametersInterface;
-use Zend\Http\Request;
 
+/**
+ * Class Queue
+ */
 class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
 {
     use ServiceLocatorAwareTrait;
@@ -83,9 +89,9 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
     }
 
     /**
-     * @param mixed $queue
-     * @throws \InvalidArgumentException
+     * @param $queue
      * @return $this
+     * @throws QueueException\InvalidArgumentException
      */
     public function __invoke($queue)
     {
@@ -98,18 +104,21 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
         }
 
         if (!$queue instanceof QueueClientInterface) {
-            throw new \InvalidArgumentException('Invalid $queue: must be a string or an instace of ' . QueueClientInterface::class);
+            throw new QueueException\InvalidArgumentException(sprintf(
+                'Invalid queue, a string or an instace of "%s" is expected; given "%s"',
+                QueueClientInterface::class,
+                is_object($queue) ? get_class($queue) : gettype($queue)
+            ));
         }
 
         $this->queue = $queue;
         return $this;
     }
 
-
     /**
      * Send a message to the queue
      *
-     * @param mixed $message
+     * @param $message
      * @param SendParametersInterface $params
      * @return MessageInterface
      */
@@ -121,9 +130,10 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
     /**
      * Receive messages from the queue
      *
-     * @param unknown $message
-     * @param number $maxMessages
+     * @param $message
+     * @param int $maxMessages
      * @param ReceiveParametersInterface $params
+     * @return MessageIterator
      */
     public function receive($message, $maxMessages = 1, ReceiveParametersInterface $params = null)
     {
@@ -144,7 +154,7 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
     {
         $message = new Message(); //TODO: use a custom message class?
         $message->setContent($name);
-        if($params !== null) {
+        if ($params !== null) {
             $message->setMetadata($params);
         }
 
@@ -155,21 +165,25 @@ class Queue extends AbstractPlugin implements ServiceLocatorAwareInterface
     /**
      * Send an HTTP request message
      *
-     * @param mixed $request
-     * @param SendParameters $sendParams
-     * @throws \InvalidArgumentException
+     * @param $request
+     * @param SendParametersInterface $sendParams
      * @return MessageInterface
+     * @throws QueueException\InvalidArgumentException
      */
     public function http($request, SendParametersInterface $sendParams = null)
     {
-        if(is_string($request)) {
+        if (is_string($request)) {
             $req = new Request();
             $req->setUri($request);
             $request = $req;
         }
 
         if (!$request instanceof Request) {
-            throw new \InvalidArgumentException('Invalid $request: must be an URI as string or an instace of ' . Request::class);
+            throw new QueueException\InvalidArgumentException(sprintf(
+                'Invalid request, a string URI or an instace of "%s" expected; given "%s"',
+                Request::class,
+                is_object($request) ? get_class($request) : gettype($request)
+            ));
         }
 
         $message = $this->getQueue()->send($request, $sendParams);
