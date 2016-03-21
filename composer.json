@@ -16,8 +16,8 @@
   ],
   "require": {
     "php": ">=5.5",
-    "stakhanovist/worker": "0.2.*@dev",
-    "stakhanovist/queue": "0.2.*@dev",
+    "stakhanovist/worker": "~0.2.0",
+    "stakhanovist/queue": "~0.2.0",
     "zendframework/zend-mvc": "~2.4",
     "zendframework/zend-servicemanager": "~2.4",
     "zendframework/zend-http": "~2.4",
@@ -42,8 +42,8 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1.x-dev",
-      "dev-develop": "0.2.x-dev"
+      "dev-master": "0.2.x-dev",
+      "dev-develop": "0.3.x-dev"
     }
   },
   "bin": [
